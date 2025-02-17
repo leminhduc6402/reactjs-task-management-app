@@ -29,15 +29,8 @@ const initialState: IState = {
 export const accountSlide = createSlice({
   name: "account",
   initialState,
-  reducers: {
-    setIsSidebarCollapsed: (state, action: PayloadAction<boolean>) => {
-      state.isSidebarCollapsed = action.payload;
-    },
-    setIsDarkMode: (state, action: PayloadAction<boolean>) => {
-      state.isDarkMode = action.payload;
-    },
-  },
+  reducers: {},
 });
 
-export const { setIsDarkMode, setIsSidebarCollapsed } = accountSlide.actions;
+// export const { } = accountSlide.actions;
 export default accountSlide.reducer;
