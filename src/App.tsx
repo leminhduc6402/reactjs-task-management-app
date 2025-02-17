@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutApp from "./LayoutApp";
+import Project from "./pages/projects";
 
 const router = createBrowserRouter(
   [
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
           path: "/teams",
           element: <div>Team</div>,
         },
+        { path: "/projects/:id", element: <Project /> },
       ],
     },
   ],

@@ -4,7 +4,6 @@ import {
   ChevronRight,
   FolderKanban,
   Home,
-  Icon,
   LockIcon,
   LucideIcon,
   Search,
@@ -14,41 +13,37 @@ import {
   X,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setIsSidebarCollapsed } from "../../redux/slice/accountSlide";
+import { setIsSidebarCollapsed } from "../../redux/slice/globalSlide";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
-    (state) => state.account.isSidebarCollapsed
+    (state) => state.global.isSidebarCollapsed
   );
 
   const [showProjects, setShowProjects] = useState(false);
-  const [showPriority, setShowPriority] = useState(false);
+  // const [showPriority, setShowPriority] = useState(false);
 
   return (
     <div
-      className={`flex flex-col bg-white h-screen shadow-xl transition-all duration-200 dark:bg-gray-800 dark:text-white ${
+      className={`fixed flex flex-col bg-white h-[100%] shadow-xl transition-all duration-200 overflow-y-auto dark:bg-gray-800 dark:text-white ${
         isSidebarCollapsed ? "w-0" : "w-64"
       }`}
     >
-      <div className="flex justify-between items-center px-6 py-3">
-        <div className="text-xl font-bold">DTT</div>
-        <div className="flex items-center">
-          {isSidebarCollapsed ? null : (
-            <button
-              className="h-6 w-6 hover:text-gray-400"
-              onClick={() =>
-                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))
-              }
-            >
-              <X />
-            </button>
-          )}
-        </div>
-      </div>
+      <div className="flex justify-end items-center px-6 py-3">
+        {/* <div className="text-xl font-bold">DTT</div> */}
 
+        {isSidebarCollapsed ? null : (
+          <button
+            className="h-6 w-6 hover:text-gray-400"
+            onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
+          >
+            <X />
+          </button>
+        )}
+      </div>
       <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
         <img src="./src/assets/react.svg" alt="Logo" width={40} height={40} />
         <div>
@@ -61,7 +56,6 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-
       {/* Navbar Links */}
       <nav className="z-10 w-full">
         <SidebarLink icon={Home} label="Home" href="/" />
@@ -71,7 +65,6 @@ const Sidebar = () => {
         <SidebarLink icon={User} label="Users" href="/users" />
         <SidebarLink icon={Users} label="Team" href="/teams" />
       </nav>
-
       {/* Projects */}
       <button
         onClick={() => setShowProjects(!showProjects)}
@@ -80,9 +73,18 @@ const Sidebar = () => {
         <span>Projects</span>
         {showProjects ? <ChevronDown /> : <ChevronRight />}
       </button>
-
       {/* Projects List */}
-      <SidebarLink icon={FolderKanban} label="Project 1" href="/project1" />
+      {!showProjects && (
+        <>
+          <SidebarLink
+            icon={FolderKanban}
+            label="Project 1"
+            href={`/projects/1`}
+          />
+        </>
+      )}
+
+      {/* href={`/projects/${project.id}` */}
     </div>
   );
 };

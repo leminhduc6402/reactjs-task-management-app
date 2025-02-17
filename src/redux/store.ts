@@ -1,9 +1,11 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import accountReducer from "./slice/accountSlide";
+import globalReducer from "./slice/globalSlide";
 
 export const store = configureStore({
   reducer: {
     account: accountReducer,
+    global: globalReducer,
   },
 });
 
