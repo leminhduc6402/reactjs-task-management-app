@@ -25,66 +25,70 @@ const Sidebar = () => {
 
   const [showProjects, setShowProjects] = useState(false);
   // const [showPriority, setShowPriority] = useState(false);
-
+  const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl 
+  transition-all duration-300 h-full text-sm z-40 dark:bg-black overflow-y-auto bg-white ${
+    isSidebarCollapsed ? "w-0 hidden" : "w-64"
+  }
+  `;
   return (
-    <div
-      className={`fixed flex flex-col bg-white h-[100%] shadow-xl transition-all duration-200 overflow-y-auto dark:bg-gray-800 dark:text-white ${
-        isSidebarCollapsed ? "w-0" : "w-64"
-      }`}
-    >
-      <div className="flex justify-end items-center px-6 py-3">
-        {/* <div className="text-xl font-bold">DTT</div> */}
+    <div className={sidebarClassNames}>
+      <div className="flex h-[100%]  w-full flex-col justify-start">
+        <div className="flex justify-end items-center px-6 py-3">
+          {/* <div className="text-xl font-bold">DTT</div> */}
 
-        {isSidebarCollapsed ? null : (
-          <button
-            className="h-6 w-6 hover:text-gray-400"
-            onClick={() => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))}
-          >
-            <X />
-          </button>
-        )}
-      </div>
-      <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
-        <img src="./src/assets/react.svg" alt="Logo" width={40} height={40} />
-        <div>
-          <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
-            DT Team
-          </h3>
-          <div className="mt-1 flex items-start gap-3">
-            <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
-            <p className="text-xs text-gray-500">Private</p>
+          {isSidebarCollapsed ? null : (
+            <button
+              className="h-6 w-6 hover:text-gray-400"
+              onClick={() =>
+                dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))
+              }
+            >
+              <X />
+            </button>
+          )}
+        </div>
+        <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
+          <img src="./src/assets/react.svg" alt="Logo" width={40} height={40} />
+          <div>
+            <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
+              DT Team
+            </h3>
+            <div className="mt-1 flex items-start gap-3">
+              <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
+              <p className="text-xs text-gray-500">Private</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Navbar Links */}
-      <nav className="z-10 w-full">
-        <SidebarLink icon={Home} label="Home" href="/" />
-        <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
-        <SidebarLink icon={Search} label="Search" href="/search" />
-        <SidebarLink icon={Settings} label="Settings" href="/settings" />
-        <SidebarLink icon={User} label="Users" href="/users" />
-        <SidebarLink icon={Users} label="Team" href="/teams" />
-      </nav>
-      {/* Projects */}
-      <button
-        onClick={() => setShowProjects(!showProjects)}
-        className="flex justify-between px-6 py-4 border-y font-bold text-lg"
-      >
-        <span>Projects</span>
-        {showProjects ? <ChevronDown /> : <ChevronRight />}
-      </button>
-      {/* Projects List */}
-      {!showProjects && (
-        <>
-          <SidebarLink
-            icon={FolderKanban}
-            label="Project 1"
-            href={`/projects/1`}
-          />
-        </>
-      )}
+        {/* Navbar Links */}
+        <nav className="z-10 w-full">
+          <SidebarLink icon={Home} label="Home" href="/" />
+          <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
+          <SidebarLink icon={Search} label="Search" href="/search" />
+          <SidebarLink icon={Settings} label="Settings" href="/settings" />
+          <SidebarLink icon={User} label="Users" href="/users" />
+          <SidebarLink icon={Users} label="Team" href="/teams" />
+        </nav>
+        {/* Projects */}
+        <button
+          onClick={() => setShowProjects(!showProjects)}
+          className="flex justify-between px-6 py-4 border-y font-bold text-lg"
+        >
+          <span>Projects</span>
+          {showProjects ? <ChevronDown /> : <ChevronRight />}
+        </button>
+        {/* Projects List */}
+        {!showProjects && (
+          <>
+            <SidebarLink
+              icon={FolderKanban}
+              label="Project 1"
+              href={`/projects/1`}
+            />
+          </>
+        )}
 
-      {/* href={`/projects/${project.id}` */}
+        {/* href={`/projects/${project.id}` */}
+      </div>
     </div>
   );
 };
