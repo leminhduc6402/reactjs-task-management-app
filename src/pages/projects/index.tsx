@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const Project = () => {
   const { id } = useParams();
+  console.log(id);
   const [activeTab, setActiveTab] = useState("Board");
   return (
     <>
