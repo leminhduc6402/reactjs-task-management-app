@@ -13,15 +13,24 @@ import {
   X,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setIsSidebarCollapsed } from "../../redux/slice/globalSlide";
+import { setIsSidebarCollapsed } from "../../redux/api/globalSlide";
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { callFetchProject } from "../../config/api";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed
   );
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      const query = `current=1&pageSize=10`;
+      const res = await callFetchProject(query);
+    };
+    fetchProject();
+  }, []);
 
   const [showProjects, setShowProjects] = useState(false);
   // const [showPriority, setShowPriority] = useState(false);
@@ -33,7 +42,7 @@ const Sidebar = () => {
   return (
     <div className={sidebarClassNames}>
       <div className="flex h-[100%]  w-full flex-col justify-start">
-        <div className="flex justify-end items-center px-6 py-3">
+        <div className="flex justify-end items-center px-6 py-3 border-r border-gray-700">
           {/* <div className="text-xl font-bold">DTT</div> */}
 
           {isSidebarCollapsed ? null : (
@@ -43,7 +52,7 @@ const Sidebar = () => {
                 dispatch(setIsSidebarCollapsed(!isSidebarCollapsed))
               }
             >
-              <X />
+              <X className="dark:text-white" />
             </button>
           )}
         </div>
@@ -55,7 +64,7 @@ const Sidebar = () => {
             </h3>
             <div className="mt-1 flex items-start gap-3">
               <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
-              <p className="text-xs text-gray-500">Private</p>
+              <p className="text-xs text-gray-500">Active</p>
             </div>
           </div>
         </div>
@@ -73,8 +82,12 @@ const Sidebar = () => {
           onClick={() => setShowProjects(!showProjects)}
           className="flex justify-between px-6 py-4 border-y font-bold text-lg"
         >
-          <span>Projects</span>
-          {showProjects ? <ChevronDown /> : <ChevronRight />}
+          <span className="dark:text-white">Projects</span>
+          {showProjects ? (
+            <ChevronDown className="dark:text-white" />
+          ) : (
+            <ChevronRight className="dark:text-white" />
+          )}
         </button>
         {/* Projects List */}
         {!showProjects && (

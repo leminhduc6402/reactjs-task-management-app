@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   setIsDarkMode,
   setIsSidebarCollapsed,
-} from "../../redux/slice/globalSlide";
+} from "../../redux/api/globalSlide";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();

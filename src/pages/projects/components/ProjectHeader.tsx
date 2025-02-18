@@ -1,4 +1,4 @@
-import { Grid3X3, List, Lock, PlusSquare, Table } from "lucide-react";
+import { Grid3X3, List, Lock, PlusSquare, Search, Table } from "lucide-react";
 import Header from "../../../components/Header";
 type Props = {
   activeTab: string;
@@ -50,7 +50,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
 
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Grid3X3 className="absolute left-3 top-2 h-4 w-4 text-gray-400 dark:text-neutral-500" />
+            <Search className="absolute left-3 top-2 h-4 w-4 text-gray-400 dark:text-neutral-500" />
             <input
               type="text"
               placeholder="Search Task..."
