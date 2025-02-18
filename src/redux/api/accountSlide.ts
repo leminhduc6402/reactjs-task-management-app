@@ -1,16 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { IUser } from "../../types/backend";
 
 interface IState {
   isAuthenticated: boolean;
   isLoading: boolean;
   isSidebarCollapsed: boolean;
   isDarkMode: boolean;
-  user: {
-    _id: string;
-    name: string;
-    email: string;
-    avatar: string;
-  };
+  user: IUser;
 }
 
 const initialState: IState = {
