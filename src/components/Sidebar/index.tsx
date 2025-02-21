@@ -2,7 +2,6 @@ import {
   Briefcase,
   ChevronDown,
   ChevronRight,
-  FolderKanban,
   Home,
   LockIcon,
   LucideIcon,
@@ -12,25 +11,27 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setIsSidebarCollapsed } from "../../redux/api/globalSlide";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { callFetchProject } from "../../config/api";
+import { setIsSidebarCollapsed } from "../../redux/api/globalSlide";
+import { useGetProjectsQuery } from "../../redux/api/projectApi";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import queryString from "query-string";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed
   );
-
-  useEffect(() => {
-    const fetchProject = async () => {
-      const query = `current=1&pageSize=10`;
-      const res = await callFetchProject(query);
-    };
-    fetchProject();
-  }, []);
+  const [queryParams] = useState(() => {
+    return queryString.stringify({
+      current: 1,
+      pageSize: 1000,
+      populate: "createdBy",
+      fields: "createdBy.name,createdBy.email,createdBy.avatar",
+    });
+  });
+  const { data: projects } = useGetProjectsQuery(queryParams);
 
   const [showProjects, setShowProjects] = useState(false);
   // const [showPriority, setShowPriority] = useState(false);
@@ -90,15 +91,15 @@ const Sidebar = () => {
           )}
         </button>
         {/* Projects List */}
-        {!showProjects && (
-          <>
+        {showProjects &&
+          projects?.data?.results.map((project) => (
             <SidebarLink
-              icon={FolderKanban}
-              label="Project 1"
-              href={`/projects/1`}
+              key={project._id}
+              icon={Briefcase}
+              label={project.name}
+              href={`/projects/${project._id}`}
             />
-          </>
-        )}
+          ))}
 
         {/* href={`/projects/${project.id}` */}
       </div>

@@ -1,18 +1,29 @@
 import { Grid3X3, List, Lock, PlusSquare, Search, Table } from "lucide-react";
 import Header from "../../../components/Header";
+import ModalNewProject from "./ModalNewProject";
+import { useState } from "react";
 type Props = {
   activeTab: string;
   setActiveTab: (tabName: string) => void;
 };
 
 const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
+  const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
   return (
     <div className="px-4 xl:px-6">
+      <ModalNewProject
+        isOpen={isModalNewTaskOpen}
+        onClose={() => setIsModalNewTaskOpen(false)}
+      />
+
       <div className="pb-6 pt-6 lg:pb-4 lg:pt-8">
         <Header
           name="Project"
           buttonComponent={
-            <button className="flex items-center rounded bg-blue-button text-white px-3 py-2 hover:bg-blue-500">
+            <button
+              onClick={() => setIsModalNewTaskOpen(true)}
+              className="flex items-center rounded bg-blue-button text-white px-3 py-2 hover:bg-blue-500"
+            >
               <PlusSquare className="mr-2 h-5 w-5" />
               New Task
             </button>
@@ -75,7 +86,7 @@ const TabButton = ({ name, icon, setActiveTab, activeTab }: TabButtonProps) => {
   return (
     <button
       className={`relative flex items-center gap-2 px-1 py-2 after:absolute after:-bottom-[9px] after:left-0 after:h-[2px] after:w-full hover:text-blue-600 dark:text-white dark:hover:text-white sm:px-2 lg:px-4 ${
-        isActive ? "text-blue-600 after:bg-blue-600 dark:text-white" : ""
+        isActive ? "text-blue-600 dark:text-blue-600 after:bg-blue-600 " : ""
       } `}
       onClick={() => setActiveTab(name)}
     >

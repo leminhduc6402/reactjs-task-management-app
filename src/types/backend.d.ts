@@ -15,6 +15,12 @@ export interface IModelPaginate<T> {
   results: T[];
 }
 
+export interface IAccount {
+  access_token: string;
+  isAuthenticated?: boolean;
+  user: IUser;
+}
+
 export interface IProject {
   _id: string;
   name: string;

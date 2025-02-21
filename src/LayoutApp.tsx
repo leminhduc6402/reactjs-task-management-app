@@ -17,13 +17,15 @@ const LayoutApp = () => {
       document.documentElement.classList.remove("dark");
     }
   });
-
+  const isAuthenticated = useAppSelector(
+    (state) => state.account.isAuthenticated
+  );
   return (
-    <div className="flex min-h-screen w-full bg-gray-100 text-gray-900">
-      <Sidebar />
+    <div className="flex min-h-screen w-full bg-gray-100 ">
+      {isAuthenticated && <Sidebar />}
       <main
-        className={`flex w-full flex-col dark:bg-slate-600 ${
-          isSidebarCollapsed ? "" : "md:pl-64"
+        className={`flex w-full flex-col dark:bg-gray-800 dark:text-white ${
+          isAuthenticated && !isSidebarCollapsed ? "md:pl-64" : ""
         }`}
       >
         <Navbar />

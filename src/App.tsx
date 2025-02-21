@@ -1,6 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LayoutApp from "./LayoutApp";
 import Project from "./pages/projects";
+import ProtectedRoute from "./components/Protected-Route";
+import Login from "./pages/auth/login";
+import Register from "./pages/auth/register";
 
 const router = createBrowserRouter(
   [
@@ -10,11 +13,13 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <div>Hello World</div>,
+          element: <div className="dark:text-gray-400">Hello World</div>,
         },
+        { path: "/login", element: <Login /> },
+        { path: "/register", element: <Register /> },
         {
           path: "/timeline",
-          element: <div>Timeline</div>,
+          element: <ProtectedRoute children={<div>Timeline </div>} />,
         },
         {
           path: "/search",
