@@ -3,7 +3,7 @@ import { IBackendRes, IModelPaginate, IProject } from "../../types/backend";
 
 export const projectApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_BASE_URL }),
-  reducerPath: "api/v1",
+  reducerPath: "projectsApi",
   tagTypes: ["Projects"],
   endpoints: (build) => ({
     getProjects: build.query<IBackendRes<IModelPaginate<IProject>>, any>({

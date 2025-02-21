@@ -1,10 +1,7 @@
-import { useParams } from "react-router-dom";
-import ProjectHeader from "./components/ProjectHeader";
 import { useState } from "react";
+import ProjectHeader from "./components/ProjectHeader";
 
 const Project = () => {
-  const { id } = useParams();
-  console.log(id);
   const [activeTab, setActiveTab] = useState("Board");
   return (
     <>

@@ -1,19 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IUser } from "../../types/backend";
+import { IAccount } from "../../types/backend";
 
-interface IState {
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  isSidebarCollapsed: boolean;
-  isDarkMode: boolean;
-  user: IUser;
-}
-
-const initialState: IState = {
+const initialState: IAccount = {
+  access_token: "",
   isAuthenticated: false,
-  isLoading: true,
-  isSidebarCollapsed: false,
-  isDarkMode: false,
   user: {
     _id: "",
     name: "",
@@ -22,11 +12,27 @@ const initialState: IState = {
   },
 };
 
+// export const fetchAccount = createAsyncThunk('auth/')
+
 export const accountSlide = createSlice({
   name: "account",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserLogin: (state, action) => {
+      state.isAuthenticated = true;
+      state.access_token = action?.payload.access_token;
+      state.user = action?.payload.user;
+    },
+    logout: (state) => {
+      localStorage.removeItem("access_token");
+      state.user = {
+        _id: "",
+        name: "",
+        email: "",
+        avatar: "",
+      };
+    },
+  },
 });
-
-// export const { } = accountSlide.actions;
+export const { setUserLogin, logout } = accountSlide.actions;
 export default accountSlide.reducer;
