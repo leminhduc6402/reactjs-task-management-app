@@ -1,20 +1,33 @@
 import { useState } from "react";
-import { useLoginMutation } from "../../redux/api/accountApi";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { callLogin } from "../../config/api";
+import { setUserLogin } from "../../redux/api/accountSlide";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { isLoading }] = useLoginMutation();
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = async () => {
     if (!email || !password) return;
-
-    const res = await login({ email, password });
-    console.log("Check Login", res);
-    // if (res.status === 200) {
-    //   localStorage.setItem("access_token", res.data?.access_token);
-    // } else {
-    //   console.log("Login Failed!!!");
-    // }
+    setIsLoading(true);
+    await callLogin(email, password)
+      .then((res) => {
+        if (res.data) {
+          dispatch(setUserLogin(res.data));
+          toast.success("Login Successfully");
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Username/Password invalid");
+      });
+    setIsLoading(false);
   };
   const isFormValid = () => {
     return email && password;
@@ -88,7 +101,7 @@ const Login = () => {
                 className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 disabled={!isFormValid() || isLoading}
               >
-                {isLoading ? "Sign in..." : "Sign in"}
+                {isLoading ? "Signing in..." : "Sign in"}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don't have an account yet?{" "}

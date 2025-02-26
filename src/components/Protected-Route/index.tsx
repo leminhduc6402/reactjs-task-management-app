@@ -7,7 +7,7 @@ type Props = {
 
 const RoleBaseRoute = (props: any) => {
   const user = useAppSelector((state) => state.account.user);
-  if (user._id === "") {
+  if (user._id !== "") {
     return <>{props.children}</>;
   } else {
     return <div>Not Found</div>;
