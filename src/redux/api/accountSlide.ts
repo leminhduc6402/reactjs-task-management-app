@@ -9,6 +9,7 @@ const initialState: IAccount = {
     name: "",
     email: "",
     avatar: "",
+    active: false,
   },
 };
 
@@ -20,7 +21,7 @@ export const accountSlide = createSlice({
   reducers: {
     setUserLogin: (state, action) => {
       state.isAuthenticated = true;
-      state.access_token = action?.payload.access_token;
+      localStorage.setItem("access_token", action?.payload.access_token);
       state.user = action?.payload.user;
     },
     logout: (state) => {
@@ -30,6 +31,7 @@ export const accountSlide = createSlice({
         name: "",
         email: "",
         avatar: "",
+        active: false,
       };
     },
   },

@@ -11,19 +11,25 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@types/react-toastify": "^4.0.2",
     "axios": "^1.7.9",
     "lucide-react": "^0.471.1",
     "query-string": "^9.1.1",
     "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.2.0",
-    "react-router-dom": "^6.28.1"
+    "react-router-dom": "^6.28.1",
+    "react-toastify": "^11.0.3",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@types/node": "^22.13.4",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/redux-persist": "^4.0.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.17.0",

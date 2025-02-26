@@ -11,30 +11,42 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { setIsSidebarCollapsed } from "../../redux/api/globalSlide";
-import { useGetProjectsQuery } from "../../redux/api/projectApi";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import queryString from "query-string";
+import { IProject } from "../../types/backend";
+import { callFetchProject } from "../../config/api";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed
   );
-  const [queryParams] = useState(() => {
-    return queryString.stringify({
-      current: 1,
-      pageSize: 1000,
-      populate: "createdBy",
-      fields: "createdBy.name,createdBy.email,createdBy.avatar",
-    });
+  const user = useAppSelector((state) => state.account.user);
+  const [projects, setProjects] = useState<IProject[] | null>(null);
+  const queryParams = queryString.stringify({
+    current: 1,
+    pageSize: 1000,
+    createdBy: user._id || "",
+    populate: "createdBy",
+    fields: "createdBy.name,createdBy.email,createdBy.avatar",
   });
-  const { data: projects } = useGetProjectsQuery(queryParams);
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    if (user._id) {
+      const res = await callFetchProject(queryParams);
+      if (res && res.data) {
+        setProjects(res.data.results || []);
+      }
+    }
+  };
 
   const [showProjects, setShowProjects] = useState(false);
-  // const [showPriority, setShowPriority] = useState(false);
   const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl 
   transition-all duration-300 h-full text-sm z-40 dark:bg-black overflow-y-auto bg-white ${
     isSidebarCollapsed ? "w-0 hidden" : "w-64"
@@ -58,14 +70,26 @@ const Sidebar = () => {
           )}
         </div>
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
-          <img src="./src/assets/react.svg" alt="Logo" width={40} height={40} />
+          <img
+            src={`http://localhost:8080/images/${user.avatar}`}
+            alt="Logo"
+            className="object-cover"
+            width={40}
+            height={40}
+          />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
-              DT Team
+              {user.name || ""}
             </h3>
             <div className="mt-1 flex items-start gap-3">
               <LockIcon className="mt-[0.1rem] h-3 w-3 text-gray-500 dark:text-gray-400" />
-              <p className="text-xs text-gray-500">Active</p>
+              <p
+                className={`text-xs ${
+                  user.active ? "text-green-500" : "text-red-600"
+                }`}
+              >
+                {user.active ? "Active" : "Inactive"}
+              </p>
             </div>
           </div>
         </div>
@@ -92,7 +116,8 @@ const Sidebar = () => {
         </button>
         {/* Projects List */}
         {showProjects &&
-          projects?.data?.results.map((project) => (
+          projects &&
+          projects.map((project) => (
             <SidebarLink
               key={project._id}
               icon={Briefcase}

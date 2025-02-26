@@ -1,12 +1,13 @@
 import { useState } from "react";
 import ProjectHeader from "./components/ProjectHeader";
+import BoardView from "./components/BoardView";
 
 const Project = () => {
   const [activeTab, setActiveTab] = useState("Board");
   return (
     <>
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === "Board" && <div className="px-4 xl:px-6">Board View</div>}
+      {activeTab === "Board" && <BoardView />}
       {activeTab === "List" && <div className="px-4 xl:px-6">List View</div>}
       {activeTab === "Timeline" && (
         <div className="px-4 xl:px-6">Timeline View</div>

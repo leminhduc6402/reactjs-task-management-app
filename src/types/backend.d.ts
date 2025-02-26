@@ -39,4 +39,30 @@ export interface IUser {
   name: string;
   email: string;
   avatar: string;
+  active: boolean;
+}
+
+export interface IUpdateStatusTask {
+  status: string;
+}
+export interface ITask {
+  _id: string;
+  createdBy: string;
+  isDeleted: boolean;
+  title: string;
+  description: string;
+  status: string;
+  priority: string;
+  tags: string;
+  startDate: string;
+  dueDate: string;
+  points: number;
+  projectId: string;
+  assignedUser: string;
+  attachments: string;
+  createdAt: string;
+  updatedAt: string;
+  updatedBy: string;
+  deletedAt: string;
+  deletedBy: string;
 }

@@ -13,7 +13,11 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <div className="dark:text-gray-400">Hello World</div>,
+          element: (
+            <ProtectedRoute
+              children={<div className="dark:text-gray-400">Hello World</div>}
+            />
+          ),
         },
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
@@ -23,7 +27,11 @@ const router = createBrowserRouter(
         },
         {
           path: "/search",
-          element: <div>Search</div>,
+          element: (
+            <ProtectedRoute>
+              <div>Search</div>
+            </ProtectedRoute>
+          ),
         },
         {
           path: "/home",
