@@ -5,6 +5,7 @@ import globalReducer from "./api/globalSlide";
 import { projectApi } from "./api/projectApi";
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
+import { taskApi } from "./api/taskApi";
 
 // Cấu hình redux-persist
 const persistConfig = {
@@ -29,11 +30,14 @@ export const store = configureStore({
     account: persistedAccountReducer,
     global: persistedGlobalReducer,
     [projectApi.reducerPath]: projectApi.reducer,
+    [taskApi.reducerPath]: taskApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(projectApi.middleware),
+    })
+      .concat(projectApi.middleware)
+      .concat(taskApi.middleware),
 });
 
 // Tạo persistor

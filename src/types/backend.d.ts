@@ -47,7 +47,6 @@ export interface IUpdateStatusTask {
 }
 export interface ITask {
   _id: string;
-  createdBy: string;
   isDeleted: boolean;
   title: string;
   description: string;
@@ -58,11 +57,12 @@ export interface ITask {
   dueDate: string;
   points: number;
   projectId: string;
-  assignedUser: string;
+  assignedUser: IUser;
   attachments: string;
-  createdAt: string;
-  updatedAt: string;
-  updatedBy: string;
-  deletedAt: string;
-  deletedBy: string;
+  createdAt: Date;
+  createdBy: IUser;
+  updatedAt: Date;
+  updatedBy: IUser;
+  deletedAt: Date;
+  deletedBy: IUser;
 }

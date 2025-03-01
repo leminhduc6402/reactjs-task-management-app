@@ -1,11 +1,14 @@
 import queryString from "query-string";
-import { useEffect, useState } from "react";
-import { useAppSelector } from "../../../../redux/hook";
-import { callFetchTask } from "../../../../config/api";
-import { ITask } from "../../../../types/backend";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import {
+  useGetTasksQuery,
+  useUpdateTaskStatusMutation,
+} from "../../../../redux/api/taskApi";
+import TaskColumn from "../TaskColumn";
 
 type BoardProps = {
-  id: string;
+  id: string | undefined;
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
 };
 const taskStatus = [
@@ -16,29 +19,37 @@ const taskStatus = [
   "Block",
 ];
 const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
-  const [tasks, setTask] = useState<ITask[] | null>(null);
-  // const user = useAppSelector((state) => state.account.user);
   const queryParams = queryString.stringify({
     current: 1,
     pageSize: 1000,
     projectId: id,
-    populate: "createdBy",
-    fields: "createdBy.name,createdBy.email,createdBy.avatar",
+    populate: "createdBy,assignedUser",
+    fields:
+      "createdBy.name,createdBy.email,createdBy.avatar,assignedUser.name,assignedUser.email,assignedUser.avatar",
   });
-
-  const fetchTask = async () => {
-    if (id) {
-      const res = await callFetchTask(queryParams);
-      if (res && res.data) {
-        setTask(res.data.results || []);
-      }
-    }
+  const { data: tasks, isLoading, isFetching } = useGetTasksQuery(queryParams);
+  const [updateTaskStatus] = useUpdateTaskStatusMutation();
+  const moveTask = (taskId: string, toStatus: string) => {
+    updateTaskStatus({ taskId, status: toStatus });
   };
-  useEffect(() => {
-    fetchTask();
-  }, []);
 
-  return <div>BoardView</div>;
+  if (isLoading || isFetching) return <p>Loading tasks...</p>;
+
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4">
+        {taskStatus.map((status) => (
+          <TaskColumn
+            key={status}
+            status={status}
+            moveTask={moveTask}
+            tasks={tasks?.data?.results || []}
+            setIsModalNewTaskOpen={setIsModalNewTaskOpen}
+          />
+        ))}
+      </div>
+    </DndProvider>
+  );
 };
 
 export default BoardView;

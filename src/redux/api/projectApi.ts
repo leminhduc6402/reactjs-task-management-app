@@ -6,7 +6,7 @@ export const projectApi = createApi({
   reducerPath: "projectsApi",
   tagTypes: ["Projects"],
   endpoints: (build) => ({
-    getProjects: build.query<IBackendRes<IModelPaginate<IProject>>, any>({
+    getProjects: build.query<IBackendRes<IModelPaginate<IProject[]>>, any>({
       query: (query: string) => `/projects?${query}`,
       providesTags: ["Projects"],
     }),
